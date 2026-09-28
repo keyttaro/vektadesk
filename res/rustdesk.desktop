@@ -1,7 +1,7 @@
 [Desktop Entry]
-Name=RustDesk
+Name=VektaDesk
 GenericName=Remote Desktop
-Comment=Remote Desktop
+Comment=Suporte remoto VektaOps
 Exec=rustdesk %u
 Icon=rustdesk
 Terminal=false
