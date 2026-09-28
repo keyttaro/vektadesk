@@ -3731,21 +3731,20 @@ Color? disabledTextColor(BuildContext context, bool enabled) {
 }
 
 Widget loadPowered(BuildContext context) {
-  // VektaDesk: sem "Powered by RustDesk" na tela inicial (o crédito AGPL fica na tela Sobre).
-  if (bind.isCustomClient() ||
-      bind.mainGetBuildinOption(key: "hide-powered-by-me") == 'Y') {
+  if (bind.mainGetBuildinOption(key: "hide-powered-by-me") == 'Y') {
     return SizedBox.shrink();
   }
+  // VektaDesk: "Desenvolvido por VektaOps" (o crédito AGPL do RustDesk fica na tela Sobre).
   return MouseRegion(
     cursor: SystemMouseCursors.click,
     child: GestureDetector(
       onTap: () {
-        launchUrl(Uri.parse('https://rustdesk.com'));
+        launchUrl(Uri.parse('https://vektaops.com.br'));
       },
       child: Opacity(
           opacity: 0.5,
           child: Text(
-            translate("powered_by_me"),
+            'Desenvolvido por VektaOps',
             overflow: TextOverflow.clip,
             style: Theme.of(context)
                 .textTheme
