@@ -1140,6 +1140,8 @@ pub fn get_api_server(api: String, custom: String) -> String {
     res
 }
 
+const VEKTADESK_API_SERVER: &str = "https://acesso.vektaops.com.br";
+
 fn get_api_server_(api: String, custom: String) -> String {
     #[cfg(windows)]
     if let Ok(lic) = crate::platform::windows::get_license_from_exe_name() {
@@ -1149,6 +1151,10 @@ fn get_api_server_(api: String, custom: String) -> String {
     }
     if !api.is_empty() {
         return api.to_owned();
+    }
+    // VektaDesk: API (login, catálogo) sempre via HTTPS no servidor Vekta.
+    if !VEKTADESK_API_SERVER.is_empty() {
+        return VEKTADESK_API_SERVER.to_owned();
     }
     let s0 = get_custom_rendezvous_server(custom);
     if !s0.is_empty() {
