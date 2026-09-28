@@ -3731,7 +3731,9 @@ Color? disabledTextColor(BuildContext context, bool enabled) {
 }
 
 Widget loadPowered(BuildContext context) {
-  if (bind.mainGetBuildinOption(key: "hide-powered-by-me") == 'Y') {
+  // VektaDesk: sem "Powered by RustDesk" na tela inicial (o crédito AGPL fica na tela Sobre).
+  if (bind.isCustomClient() ||
+      bind.mainGetBuildinOption(key: "hide-powered-by-me") == 'Y') {
     return SizedBox.shrink();
   }
   return MouseRegion(

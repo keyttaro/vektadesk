@@ -186,10 +186,11 @@ class _InstallPageBodyState extends State<_InstallPageBody>
                               .marginOnly(bottom: em),
                           InkWell(
                             hoverColor: Colors.transparent,
+                            // VektaDesk: licença do próprio VektaDesk (AGPL-3.0).
                             onTap: () => launchUrlString(
-                                'https://rustdesk.com/privacy.html'),
+                                'https://github.com/keyttaro/vektadesk/blob/vektadesk/LICENCE'),
                             child: Tooltip(
-                              message: 'https://rustdesk.com/privacy.html',
+                              message: 'https://github.com/keyttaro/vektadesk/blob/vektadesk/LICENCE',
                               child: Row(children: [
                                 Icon(Icons.launch_outlined, size: 16)
                                     .marginOnly(right: 5),
