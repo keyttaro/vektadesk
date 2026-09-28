@@ -485,7 +485,8 @@ class _GeneralState extends State<_General> {
   Widget other() {
     final incomingOnly = bind.isIncomingOnly();
     final outgoingOnly = bind.isOutgoingOnly();
-    final showAutoUpdate = isWindows && bind.mainIsInstalled();
+    // VektaDesk: atualização automática desativada (usaria o canal do RustDesk oficial).
+    final showAutoUpdate = !bind.isCustomClient() && isWindows && bind.mainIsInstalled();
     final children = <Widget>[
       if (!isWeb && !incomingOnly)
         _OptionCheckBox(context, 'Confirm before closing multiple tabs',
@@ -2446,49 +2447,45 @@ class _AboutState extends State<_About> {
                 SelectionArea(
                     child: Text('${translate('Fingerprint')}: $fingerprint')
                         .marginSymmetric(vertical: 4.0)),
+              // VektaDesk: site e contatos de suporte da Vekta.
               InkWell(
                   onTap: () {
-                    launchUrlString('https://rustdesk.com/privacy.html');
+                    launchUrlString('https://vektaops.com.br');
                   },
                   child: Text(
-                    translate('Privacy Statement'),
+                    '${translate('Website')}: vektaops.com.br',
                     style: linkStyle,
                   ).marginSymmetric(vertical: 4.0)),
               InkWell(
                   onTap: () {
-                    launchUrlString('https://rustdesk.com');
+                    launchUrlString('https://wa.me/5531983630990');
                   },
-                  child: Text(
-                    translate('Website'),
+                  child: const Text(
+                    'WhatsApp: +55 31 98363-0990',
                     style: linkStyle,
                   ).marginSymmetric(vertical: 4.0)),
-              Container(
-                decoration: const BoxDecoration(color: Color(0xFF2c8cff)),
-                padding:
-                    const EdgeInsets.symmetric(vertical: 24, horizontal: 8),
-                child: SelectionArea(
-                    child: Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Copyright © ${DateTime.now().toString().substring(0, 4)} Purslane Tech Pte. Ltd.\n$license',
-                            style: const TextStyle(color: Colors.white),
-                          ),
-                          Text(
-                            translate('Slogan_tip'),
-                            style: TextStyle(
-                                fontWeight: FontWeight.w800,
-                                color: Colors.white),
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
-                )),
-              ).marginSymmetric(vertical: 4.0)
+              InkWell(
+                  onTap: () {
+                    launchUrlString('mailto:warlen@vektaops.com.br');
+                  },
+                  child: const Text(
+                    'E-mail: warlen@vektaops.com.br',
+                    style: linkStyle,
+                  ).marginSymmetric(vertical: 4.0)),
+              // Aviso legal exigido pela AGPL-3.0 (seção 5d): crédito do copyright
+              // original, licença sem garantia e acesso ao código-fonte.
+              InkWell(
+                onTap: () {
+                  launchUrlString('https://github.com/keyttaro/vektadesk');
+                },
+                child: Text(
+                  'Baseado no RustDesk © Purslane Tech Pte. Ltd. · '
+                  'AGPL-3.0, sem garantia · Código-fonte',
+                  style: TextStyle(
+                      fontSize: 11,
+                      color: Theme.of(context).hintColor),
+                ),
+              ).marginOnly(top: 16.0, bottom: 4.0),
             ],
           ).marginOnly(left: _kContentHMargin)
         ]),

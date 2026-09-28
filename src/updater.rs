@@ -118,6 +118,11 @@ fn start_auto_update_check_(rx_msg: Receiver<UpdateMsg>) {
 }
 
 fn check_update(manually: bool) -> ResultType<()> {
+    // VektaDesk: nunca atualizar pelo canal do RustDesk oficial (baixaria o RustDesk
+    // e substituiria o VektaDesk, perdendo marca, servidor e chave).
+    if crate::is_custom_client() {
+        return Ok(());
+    }
     #[cfg(target_os = "windows")]
     let update_msi = crate::platform::is_msi_installed()? && !crate::is_custom_client();
     if !(manually || config::Config::get_bool_option(config::keys::OPTION_ALLOW_AUTO_UPDATE)) {

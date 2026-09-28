@@ -123,6 +123,11 @@ pub(crate) fn is_cjk_lang(lang_or_locale: &str) -> bool {
 fn resolve_lang(saved_lang: &str, locale: &str, cjk_fallback: bool) -> String {
     let locale = locale.to_lowercase();
     let mut lang = saved_lang.to_lowercase();
+    // VektaDesk: português do Brasil por padrão, independente do idioma do sistema.
+    // O usuário ainda pode escolher outro idioma nas configurações.
+    if lang.is_empty() || lang == "default" {
+        lang = "pt".to_owned();
+    }
     if cjk_fallback && is_cjk_lang(&lang) {
         return "en".to_owned();
     }

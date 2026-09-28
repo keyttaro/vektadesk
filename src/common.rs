@@ -1061,6 +1061,8 @@ pub fn get_api_server(api: String, custom: String) -> String {
     res
 }
 
+const VEKTADESK_API_SERVER: &str = "https://acesso.vektaops.com.br";
+
 fn get_api_server_(api: String, custom: String) -> String {
     #[cfg(windows)]
     if let Ok(lic) = crate::platform::windows::get_license_from_exe_name() {
@@ -1070,6 +1072,10 @@ fn get_api_server_(api: String, custom: String) -> String {
     }
     if !api.is_empty() {
         return api.to_owned();
+    }
+    // VektaDesk: API (login, catálogo) sempre via HTTPS no servidor Vekta.
+    if !VEKTADESK_API_SERVER.is_empty() {
+        return VEKTADESK_API_SERVER.to_owned();
     }
     let s0 = get_custom_rendezvous_server(custom);
     if !s0.is_empty() {
@@ -2031,6 +2037,14 @@ pub fn create_symmetric_key_msg(their_pk_b: [u8; 32]) -> (Bytes, Bytes, secretbo
 
 #[inline]
 pub fn using_public_server() -> bool {
+    // VektaDesk: o servidor embutido é o da Vekta, nunca o público do RustDesk.
+    // Sem isso o app mostrava "configure seu próprio servidor" e limitava qualidade/FPS.
+    if !config::RENDEZVOUS_SERVERS
+        .iter()
+        .any(|s| s.ends_with("rustdesk.com"))
+    {
+        return false;
+    }
     crate::get_custom_rendezvous_server(get_option("custom-rendezvous-server")).is_empty()
 }
 
