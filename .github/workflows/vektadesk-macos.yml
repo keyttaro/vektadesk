@@ -218,7 +218,7 @@ jobs:
           plutil -lint "$app/Contents/Info.plist"
           expected=x86_64
           if [ "${{ matrix.job.arch }}" = aarch64 ]; then expected=arm64; fi
-          lipo -verify_arch "$expected" "$app/Contents/MacOS/VektaDesk"
+          lipo "$app/Contents/MacOS/VektaDesk" -verify_arch "$expected"
           test -f "$app/Contents/MacOS/service"
           # Local ad-hoc signature, NOT an Apple Developer ID signature or notarization.
           codesign --force --deep --sign - "$app"
